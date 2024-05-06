@@ -29,7 +29,7 @@ import JobAnalysisForm from '@/components/JobAnalysisForm.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 }
 header{
   font-weight: bold;

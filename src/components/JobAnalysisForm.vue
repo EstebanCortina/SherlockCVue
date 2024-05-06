@@ -11,20 +11,24 @@
 
 <style scoped>
 #job-description-area {
-  width: calc(100% - 20px); /* Cambiado */
+  width: calc(100% - 20px);
   height: 200px;
-  border: 1px solid #50727b;
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   resize: none;
   margin-bottom: 20px;
 }
 #explain-form {
-  width: 100%; /* Cambiado */
+  width: 100%;
+  max-width: 80%;
   text-align: center;
 }
+#analyze-btn{
+  width: 100%;
+}
 @media screen and (min-width: 1200px) {
-  #explain-form {
-    width: calc(100% - 850px - 20px);
+  #explain-form{
+    width: 20%;
   }
 }
 </style>

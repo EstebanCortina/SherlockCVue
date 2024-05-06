@@ -32,7 +32,7 @@
 }
 @media screen and (min-width: 1200px) {
     #drop-area {
-      width: 850px; /* Cambiado */
+      width: 850px;
       height: 400px;
     }
 }
