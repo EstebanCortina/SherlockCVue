@@ -1,47 +1,75 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import HeaderCom from '@/components/HeaderCom.vue'
+import DropArea from '@/components/DropArea.vue'
+import JobAnalysisForm from '@/components/JobAnalysisForm.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <nav>
+      <div class="logo">
+        <a href="#">SherlockCV</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Acerca</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
   </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section id="first">
+    <DropArea></DropArea>
+    <JobAnalysisForm></JobAnalysisForm>
+  </section>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+#first {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+header{
+  font-weight: bold;
+  background-color: #003c43;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(83, 82, 82, 0.46);
+}
+nav {
+  color: var(--details-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.logo a {
+  font-size: 24px;
+  text-decoration: none;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.nav-links {
+  list-style: none;
+  display: flex;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.nav-links li {
+  margin-right: 20px;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+.nav-links li a {
+  text-decoration: none;
+}
+
+.nav-links li a:hover {
+  color: #f0f0f0;
+}
+
+
+@media screen and (min-width: 1200px) {
+  #first {
+    flex-direction: row;
   }
 }
 </style>

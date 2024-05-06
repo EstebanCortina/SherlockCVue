@@ -1,35 +1,45 @@
-@import './base.css';
+:root {
+    --primary-color:   #003c43;
+    --secondary-color: #135d66;
+    --details-color:   #fbfada;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+body {
+    font-family: "Roboto", sans-serif;
+    color: var(--secondary-color);
+    margin: 0;
+    padding: 0;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+a{
+    color: inherit;
 }
 
-@media (min-width: 1024px) {
-  body {
+.accept-btn {
+    color: var(--details-color);
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--secondary-color);
+    width: 100%;
+    max-width: 200px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.accept-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--details-color);
+    box-shadow: 0 0 20px #d5d4ab;
+}
+
+.row {
     display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
