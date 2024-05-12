@@ -11,10 +11,12 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "prod": "serve -s . --mime-type js=application/javascript -l 443"
   },
   "dependencies": {
     "pdfjs-dist": "^4.2.67",
+    "serve": "^14.2.3",
     "vue": "^3.4.21"
   },
   "devDependencies": {
