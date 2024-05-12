@@ -12,7 +12,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "prod": "serve -s . --mime-type js=application/javascript -l 443"
+    "prod": "serve -s . -l 443"
   },
   "dependencies": {
     "pdfjs-dist": "^4.2.67",
