@@ -18,6 +18,13 @@ export default defineConfig({
     vue(),
     vueJsx()
   ],
+  build: {
+    target: 'esnext',
+    outDir: 'dist',
+    assetsDir: '',
+    minify: 'terser',
+    sourcemap: false
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

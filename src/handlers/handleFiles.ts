@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import * as PDFJS from 'pdfjs-dist'
 
-PDFJS.GlobalWorkerOptions.workerSrc = '/public/pdf.worker.min.mjs'
+PDFJS.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
 export default async function handleFiles(files: FileList, container: HTMLElement, dropArea: HTMLElement, docsRef: Ref): Promise<void> {
   let currentRow = container.lastElementChild
   for (const file of files) {
