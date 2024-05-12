@@ -2,6 +2,7 @@
 import HeaderCom from '@/components/HeaderCom.vue'
 import DropArea from '@/components/DropArea.vue'
 import JobAnalysisForm from '@/components/JobAnalysisForm.vue'
+
 </script>
 
 <template>
