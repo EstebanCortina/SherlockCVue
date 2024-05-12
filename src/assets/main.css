@@ -1,43 +1,1 @@
-:root {
-    --primary-color:   #003c43;
-    --secondary-color: #135d66;
-    --details-color:   #fbfada;
-
-}
-
-body {
-    font-family: "Roboto", sans-serif;
-    color: var(--secondary-color);
-    margin: 0;
-    padding: 0;
-}
-
-a{
-    color: inherit;
-}
-
-.accept-btn {
-    color: var(--details-color);
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--secondary-color);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-}
-
-.accept-btn:hover {
-    background-color: var(--primary-color);
-    color: var(--details-color);
-    box-shadow: 0 0 20px #d5d4ab;
-}
-
-.row {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 25px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
+:root {    --primary-color:   #003c43;    --secondary-color: #135d66;    --details-color:   #fbfada;}body {    font-family: "Roboto", sans-serif;    color: var(--secondary-color);    margin: 0;    padding: 0;}a{    color: inherit;}.accept-btn {    color: var(--details-color);    font-weight: bold;    border: none;    border-radius: 5px;    background-color: var(--secondary-color);    padding: 10px 20px;    cursor: pointer;    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;}.accept-btn:hover {    background-color: var(--primary-color);    color: var(--details-color);    box-shadow: 0 0 20px #d5d4ab;}.row {    display: flex;    justify-content: flex-start;    align-items: flex-start;    gap: 25px;    flex-wrap: wrap;    margin-bottom: 10px;}

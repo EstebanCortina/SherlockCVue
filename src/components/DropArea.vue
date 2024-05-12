@@ -1,11 +1,28 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import handleFiles from '@/handlers/handleFiles'
 
+const pdfContainerRef = ref(null)
+const dropAreaRef = ref(null)
+const docsToSend = ref([])
+onMounted(() => {
+  document.addEventListener('drop', (e) => {
+    e.preventDefault()
+    const files = e.dataTransfer?.files
+    if (files && dropAreaRef.value && pdfContainerRef.value) {
+      handleFiles(files, pdfContainerRef.value, dropAreaRef.value, docsToSend)
+    }
+  })
+  document.addEventListener('dragover', (e) => {
+    e.preventDefault()
+  })
+})
 </script>
 
 <template>
-  <div id="drop-area">
+  <div ref="dropAreaRef" id="drop-area">
     <strong><p>Arrastra y suelta archivos PDF</p></strong>
-    <div id="pdf-container"></div>
+    <div ref="pdfContainerRef" id="pdf-container"></div>
   </div>
 </template>
 
@@ -26,15 +43,17 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.466);
   margin: 20px;
 }
+
 #pdf-container {
   max-width: 100%;
   max-height: 80%;
 }
+
 @media screen and (min-width: 1200px) {
-    #drop-area {
-      width: 850px;
-      height: 400px;
-    }
+  #drop-area {
+    width: 850px;
+    height: 400px;
+  }
 }
 
 </style>
