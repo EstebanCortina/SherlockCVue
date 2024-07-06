@@ -27,6 +27,16 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
 #drop-area {
   background-color: var(--secondary-color);
   color: var(--details-color);
