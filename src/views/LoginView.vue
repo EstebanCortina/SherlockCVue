@@ -1,7 +1,35 @@
 <script setup lang="ts">
+import axios from 'axios'
 import FormCom from '@/components/Basics/FormCom.vue'
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
 import GapUtil from '@/components/utils/GapUtil.vue'
+import { ref } from 'vue'
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const apiUrl = import.meta.env.VITE_API_URL
+const email = ref('')
+const password = ref('')
+
+function login() {
+  axios.post(`${apiUrl}/login`,
+    {
+      'email': email.value,
+      'password': password.value
+    }).then(response => {
+    console.log(response.data)
+    if (response.status === 200) {
+      router.push({ name: 'CandidatesPool' })
+    }
+
+  })
+    .catch(error => {
+      alert(error.response.data.message)
+    })
+}
+
 </script>
 
 <template>
@@ -12,18 +40,18 @@ import GapUtil from '@/components/utils/GapUtil.vue'
           <GapUtil gap="16px">
             <div class="form-group">
               <label for="email">Correo:</label>
-              <input name="email" type="email" />
+              <input name="email" type="email" v-model="email" />
             </div>
             <div class="form-group">
               <label for="password">Contraseña:</label>
-              <input name="password" type="password" />
+              <input name="password" type="password" v-model="password" />
             </div>
           </GapUtil>
         </template>
 
         <template #form-buttons>
           <GapUtil gap="16px">
-            <AcceptBtnCom :is-default="false">Login</AcceptBtnCom>
+            <AcceptBtnCom @click="login" :is-default="false">Login</AcceptBtnCom>
             <AcceptBtnCom :is-default="false">Crear cuenta</AcceptBtnCom>
           </GapUtil>
         </template>

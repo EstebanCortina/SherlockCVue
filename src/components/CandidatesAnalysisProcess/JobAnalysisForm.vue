@@ -10,7 +10,7 @@ function startAnalysis() {
 <template>
   <div id="explain-form">
     <textarea id="job-description-area"></textarea>
-    <AcceptBtnCom @click="startAnalysis" id="analyze-btn">Analizar</AcceptBtnCom>
+    <AcceptBtnCom :is-default="true" @click="startAnalysis" id="analyze-btn">Analizar</AcceptBtnCom>
   </div>
 </template>
 

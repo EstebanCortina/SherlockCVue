@@ -11,7 +11,7 @@ const isDefault = ref(props.isDefault)
 </script>
 
 <template>
-  <button :class="{'default-accept-btn': isDefault, 'inverted-accept-btn': !isDefault}" id="accept-btn" type="button">
+  <button :class="{'default-accept-btn': isDefault, 'inverted-accept-btn': !isDefault}" type="button">
     <slot>Aceptar</slot>
   </button>
 </template>

@@ -5,12 +5,12 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: import('@/views/LoginView.vue')
+    component: () => import('@/views/LoginView.vue')
   },
   {
     path: '/candidates',
     name: 'CandidatesPool',
-    component: import('@/views/CandidatesPoolView.vue')
+    component: () => import('@/views/CandidatesPoolView.vue')
   }
 ]
 
