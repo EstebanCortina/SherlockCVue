@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/views/LoginView.vue'
 
 const routes = [
   {
@@ -11,6 +10,11 @@ const routes = [
     path: '/candidates',
     name: 'CandidatesPool',
     component: () => import('@/views/CandidatesPoolView.vue')
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@/views/SignupView.vue')
   }
 ]
 
