@@ -26,10 +26,9 @@ function signup() {
         'last_name': lastName.value,
         'email': email.value,
         'password': password.value
-        'user_type_id':
       }).then(response => {
-      console.log(response.data)
-      if (response.status === 200) {
+
+      if (response.status === 201) {
         router.push({ name: 'CandidatesPool' })
       }
 
@@ -52,10 +51,6 @@ function areFieldsValid() {
     throw new Error('Las contraseñas deben coincidir')
   }
   return true
-}
-
-function getUserTypeId("Customer"){
-  axios.get(`${apiUrl}/users/${name.value}`).then(response => {})
 }
 
 </script>

@@ -19,7 +19,7 @@ function login() {
       'email': email.value,
       'password': password.value
     }).then(response => {
-    console.log(response.data)
+
     if (response.status === 200) {
       router.push({ name: 'CandidatesPool' })
     }
