@@ -10,24 +10,47 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const apiUrl = import.meta.env.VITE_API_URL
+const name = ref('')
+const lastName = ref('')
 const email = ref('')
 const password = ref('')
+const rPassword = ref('')
 
-function login() {
-  axios.post(`${apiUrl}/login`,
-    {
-      'email': email.value,
-      'password': password.value
-    }).then(response => {
+function signup() {
 
-    if (response.status === 200) {
-      router.push({ name: 'CandidatesPool' })
-    }
+  try {
+    areFieldsValid()
+    axios.post(`${apiUrl}/signup`,
+      {
+        'name': name.value,
+        'last_name': lastName.value,
+        'email': email.value,
+        'password': password.value
+      }).then(response => {
 
-  })
-    .catch(error => {
+      if (response.status === 201) {
+        router.push({ name: 'CandidatesPool' })
+      }
+
+    }).catch(error => {
       alert(error.response.data.message)
     })
+
+  } catch (e: any) {
+    alert(e.message)
+  }
+}
+
+
+function areFieldsValid() {
+  if (!name.value || !lastName.value || !email.value || !password.value) {
+    throw new Error('Llene todos los campos requeridos')
+  }
+
+  if (!(password.value === rPassword.value)) {
+    throw new Error('Las contraseñas deben coincidir')
+  }
+  return true
 }
 
 </script>
@@ -35,25 +58,36 @@ function login() {
 <template>
   <div class="main-body">
     <div class="overlay">
-      <FormCom form-title="Iniciar sesión">
+      <FormCom form-title="Registrar Nuevo Usuario">
         <template #form-fields>
           <GapUtil gap="16px">
-            <div class="form-group">
-              <label for="email">Correo:</label>
-              <input name="email" type="email" v-model="email" />
+            <div style="display: flex; column-gap: 10%">
+              <div class="form-group">
+                <label for="name">Nombre*:</label>
+                <input name="name" type="text" v-model="name" required />
+              </div>
+              <div class="form-group">
+                <label for="last-name">Apellido*:</label>
+                <input name="last-name" type="text" v-model="lastName" required />
+              </div>
             </div>
             <div class="form-group">
-              <label for="password">Contraseña:</label>
-              <input name="password" type="password" v-model="password" />
+              <label for="email">Correo*:</label>
+              <input name="email" type="email" v-model="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña*:</label>
+              <input name="password" type="password" v-model="password" required />
+            </div>
+            <div class="form-group">
+              <label for="r-password"> Repetir Contraseña*:</label>
+              <input name="r-password" type="password" v-model="rPassword" required />
             </div>
           </GapUtil>
         </template>
 
         <template #form-buttons>
-          <GapUtil gap="16px">
-            <AcceptBtnCom @click="login" :is-default="false">Login</AcceptBtnCom>
-            <AcceptBtnCom :is-default="false">Crear cuenta</AcceptBtnCom>
-          </GapUtil>
+          <AcceptBtnCom @click="signup" :is-default="false">Crear cuenta</AcceptBtnCom>
         </template>
 
         <template #form-footer>
