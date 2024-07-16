@@ -21,7 +21,10 @@ onMounted(() => {
 
 <template>
   <div ref="dropAreaRef" id="drop-area">
-    <strong><p>Arrastra y suelta archivos PDF</p></strong>
+    <img style="width: 6dvw" src="@/assets/folder-icon.svg" alt="folder">
+    <span style="margin: 15px">
+      <b style="font-size: 1.2dvw;">Arrastra y suelta archivos PDF</b>
+    </span>
     <div ref="pdfContainerRef" id="pdf-container"></div>
   </div>
 </template>
@@ -40,9 +43,12 @@ onMounted(() => {
 #drop-area {
   background-color: var(--secondary-color);
   color: var(--details-color);
-  width: 100%;
-  max-width: 850px;
-  height: 400px;
+  /*
+  max-width: 700px;
+  height: 650px;
+   */
+  width: 50dvw;
+  height: 60dvh;
   border: 4px dashed #fbfada;
   border-radius: 10px;
   display: flex;
@@ -59,11 +65,13 @@ onMounted(() => {
   max-height: 80%;
 }
 
+/*
 @media screen and (min-width: 1200px) {
   #drop-area {
     width: 850px;
     height: 400px;
   }
 }
+ */
 
 </style>

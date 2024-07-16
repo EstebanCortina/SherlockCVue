@@ -7,14 +7,20 @@ const routes = [
     component: () => import('@/views/LoginView.vue')
   },
   {
-    path: '/candidates',
-    name: 'CandidatesPool',
-    component: () => import('@/views/CandidatesPoolView.vue')
-  },
-  {
     path: '/signup',
     name: 'Signup',
     component: () => import('@/views/SignupView.vue')
+  },
+  {
+    // Experimental name for the path
+    path: '/vacants',
+    name: 'Vacants',
+    component: () => import('@/views/JobCardsView.vue')
+  },
+  {
+    path: '/candidates',
+    name: 'CandidatesPool',
+    component: () => import('@/views/CandidatesPoolView.vue')
   }
 ]
 

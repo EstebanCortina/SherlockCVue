@@ -19,14 +19,12 @@ function login() {
       'email': email.value,
       'password': password.value
     }).then(response => {
-
-    if (response.status === 200) {
-      router.push({ name: 'CandidatesPool' })
-    }
-
+    localStorage.setItem('authToken', response.data.token)
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+    router.push({ name: 'Vacants' })
   })
     .catch(error => {
-      alert(error.response.data.message)
+      console.log(error.response.data.message)
     })
 }
 

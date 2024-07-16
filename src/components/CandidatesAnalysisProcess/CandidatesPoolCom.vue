@@ -7,7 +7,6 @@ import JobAnalysisForm from '@/components/CandidatesAnalysisProcess/JobAnalysisF
 <template>
   <section id="first">
     <DropArea></DropArea>
-    <JobAnalysisForm></JobAnalysisForm>
   </section>
 </template>
 
