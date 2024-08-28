@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+//@ts-expect-error
 import Vue3TagsInput from 'vue3-tags-input'
 import axios from 'axios'
 import { useJobPositionProcessStore } from '@/stores/jobPositionProcessStore'

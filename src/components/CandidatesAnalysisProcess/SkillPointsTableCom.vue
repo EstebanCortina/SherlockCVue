@@ -81,7 +81,7 @@ function openNewScoreItem() {
           </span>
           <span>
 <!--            <label>Valor:</label>-->
-            <input :placeholder="remainingPoints" type="number" v-model="newScoreItemPoints" /> pts
+            <input :placeholder="remainingPoints.toString()" type="number" v-model="newScoreItemPoints" /> pts
           </span>
         </div>
 
