@@ -15,11 +15,14 @@
     "prod": "serve -s . -l 443"
   },
   "dependencies": {
+    "@vueuse/core": "^10.11.0",
     "axios": "^1.7.2",
     "pdfjs-dist": "^4.2.67",
+    "pinia": "^2.2.1",
     "serve": "^14.2.3",
     "vue": "^3.4.21",
-    "vue-router": "^4.4.0"
+    "vue-router": "^4.4.0",
+    "vue3-tags-input": "^1.0.12"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
