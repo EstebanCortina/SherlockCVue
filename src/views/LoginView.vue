@@ -28,6 +28,10 @@ function login() {
     })
 }
 
+function goToSignup() {
+  router.push({ name: 'Signup' })
+}
+
 </script>
 
 <template>
@@ -49,8 +53,8 @@ function login() {
 
         <template #form-buttons>
           <GapUtil gap="16px">
-            <AcceptBtnCom @click="login" :is-default="false">Login</AcceptBtnCom>
-            <AcceptBtnCom :is-default="false">Crear cuenta</AcceptBtnCom>
+            <AcceptBtnCom @click="login" :is-inverted="true">Login</AcceptBtnCom>
+            <AcceptBtnCom @click="goToSignup" :is-inverted="true">Crear cuenta</AcceptBtnCom>
           </GapUtil>
         </template>
 

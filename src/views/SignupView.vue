@@ -87,7 +87,7 @@ function areFieldsValid() {
         </template>
 
         <template #form-buttons>
-          <AcceptBtnCom @click="signup" :is-default="false">Crear cuenta</AcceptBtnCom>
+          <AcceptBtnCom @click="signup" :is-inverted="true">Registrarme</AcceptBtnCom>
         </template>
 
         <template #form-footer>
@@ -169,6 +169,7 @@ function areFieldsValid() {
 
 .form-group {
   margin-bottom: 0;
+  width: 100%;
 }
 
 label {

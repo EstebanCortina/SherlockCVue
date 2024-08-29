@@ -7,40 +7,42 @@ import { onBeforeMount } from 'vue'
 import type { JobPosition } from '@/types/JobPosition'
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
 import SkillPointsTableCom from '@/components/CandidatesAnalysisProcess/SkillPointsTableCom.vue'
+import router from '@/router'
 
 let currentProcess: any
-let currentJobPosition = {
-  'id': '5110f768-5823-11ef-a067-4e482286164d',
-  'user_id': '9becfb0d-3963-11ef-a067-4e482286164d',
-  'name': 'Backend Developer',
-  'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
-  'key_points': [
-    'aws',
-    'python',
-    'terraform',
-    'git',
-    'gitlab',
-    'ingles',
-    'javascript',
-    'serverless'
-  ],
-  'is_open': 1,
-  'created_at': '2024-08-12T02:50:17.000Z',
-  'deleted_at': null
-}
+let currentJobPosition: JobPosition
+// let currentJobPosition = {
+//   'id': '5110f768-5823-11ef-a067-4e482286164d',
+//   'user_id': '9becfb0d-3963-11ef-a067-4e482286164d',
+//   'name': 'Backend Developer',
+//   'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+//   'key_points': [
+//     'aws',
+//     'python',
+//     'terraform',
+//     'git',
+//     'gitlab',
+//     'ingles',
+//     'javascript',
+//     'serverless'
+//   ],
+//   'is_open': 1,
+//   'created_at': '2024-08-12T02:50:17.000Z',
+//   'deleted_at': null
+// }
 
-// onBeforeMount(() => {
-//   currentProcess = useJobPositionProcessStore().processData
-//
-//   if (!currentProcess) {
-//     console.error('no process')
-//     const router = useRouter()
-//     router.back()
-//   } else {
-//     currentJobPosition = currentProcess.job_position
-//     console.log(currentJobPosition)
-//   }
-// })
+onBeforeMount(() => {
+  currentProcess = useJobPositionProcessStore().processData
+
+  if (!currentProcess) {
+    console.error('no process')
+    const router = useRouter()
+    router.back()
+  } else {
+    currentJobPosition = currentProcess.job_position
+    console.log(currentJobPosition)
+  }
+})
 
 </script>
 
@@ -49,17 +51,23 @@ let currentJobPosition = {
     <HeaderCom />
 
 
-    <div style="display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(83, 82, 82, 0.46);">
+    <div
+      style="display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(83, 82, 82, 0.46); ">
 
-      <AcceptBtnCom style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px" :is-cancel="true">Cancelar</AcceptBtnCom>
+      <AcceptBtnCom @click="router.back()"
+                    style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px" :is-cancel="true">Cancelar
+      </AcceptBtnCom>
 
-      <div style="margin: 20px;">
-        <span style="color: var(--primary-color); font-size: 64px">
-                <b>{{ currentJobPosition?.name }}</b>
-        </span>
+      <div style="margin: 20px; width: 800px; text-align: center;">
+        <p
+          style="color: var(--primary-color); font-size: 64px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+          <b>{{ currentJobPosition?.job_position_name }}</b>
+        </p>
       </div>
 
-      <AcceptBtnCom style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px" :is-default="true">Iniciar análisis</AcceptBtnCom>
+      <AcceptBtnCom style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px" :is-default="true">
+        Iniciar análisis
+      </AcceptBtnCom>
     </div>
 
     <div class="content">
@@ -78,9 +86,9 @@ let currentJobPosition = {
           </span>
 
           <div style="overflow: auto; color: #828282; padding: 5%; margin-bottom: 10px;">
-            <p style="text-align: justify; margin: 0">{{ currentJobPosition?.description }}</p>
+            <p style="text-align: justify; margin: 0">{{ currentJobPosition?.job_position_description }}</p>
             <ul class="key_points-container">
-              <li v-for="(keyPoint, i) in currentJobPosition?.key_points" :key="i"
+              <li v-for="(keyPoint, i) in currentJobPosition?.job_position_key_points" :key="i"
                   style="text-align: left; text-overflow: fade;">
                 {{ keyPoint }}
               </li>

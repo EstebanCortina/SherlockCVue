@@ -21,6 +21,11 @@ const routes = [
     path: '/candidates',
     name: 'CandidatesPool',
     component: () => import('@/views/CandidatesPoolView.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import ('@/views/NotFound.vue')
   }
 ]
 

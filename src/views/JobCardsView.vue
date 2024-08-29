@@ -23,6 +23,7 @@ let jobPositionsMuck: Ref<JobPosition[]> = ref([])
 onMounted(async () => {
   try {
     let response = await axios.get(`${apiUrl}/job-positions`)
+    console.log(response.data)
     jobPositionsMuck.value = response.data
   } catch (e) {
     //@ts-ignore
@@ -30,52 +31,70 @@ onMounted(async () => {
   }
 })
 
+
+let jobPositionDummy = {} as JobPosition
+
 const openCreateModal = ref(false)
 const openUpdateModal = ref(false)
 const openDeleteMessage = ref(false)
-let currentModalJobPosition = {} as JobPosition
+
 
 async function deleteJobPosition(index: number) {
-  currentModalJobPosition = jobPositionsMuck.value[index]
+  jobPositionDummy = JSON.parse(JSON.stringify(jobPositionsMuck.value[index]))
   openDeleteMessage.value = true
 }
 
 function createJobPosition() {
-  currentModalJobPosition = {} as JobPosition
+  jobPositionDummy = {} as JobPosition
   openCreateModal.value = true
 }
 
 function updateJobPosition(index: number = 0) {
-  currentModalJobPosition = jobPositionsMuck.value[index]
+  jobPositionDummy = JSON.parse(JSON.stringify(jobPositionsMuck.value[index]))
   openUpdateModal.value = true
 }
 
 function updateKeyPoints(tags: string[]) {
-  currentModalJobPosition.key_points = tags
+  jobPositionDummy.job_position_key_points = tags
 }
 
 function closeCreateModal() {
-  currentModalJobPosition = {} as JobPosition
+  jobPositionDummy = {} as JobPosition
   openCreateModal.value = false
+
+}
+
+function closeUpdateModal() {
+  jobPositionDummy = {} as JobPosition
+  openUpdateModal.value = false
 
 }
 
 async function performAction() {
   let axiosInstance
-  let jobPositionId = currentModalJobPosition.id ?? null
+  let jobPositionId = jobPositionDummy.job_position_id ?? null
 
   if (openUpdateModal.value) {
 
-    delete currentModalJobPosition.id
-    delete currentModalJobPosition.user_id
-    delete currentModalJobPosition.created_at
-    delete currentModalJobPosition.deleted_at
+    delete jobPositionDummy.job_position_id
+    delete jobPositionDummy.job_position_user_id
+    delete jobPositionDummy.job_position_created_at
+    delete jobPositionDummy.job_position_deleted_at
 
-    axiosInstance = axios.put(`${apiUrl}/job-positions/${jobPositionId}`, currentModalJobPosition)
+
+    axiosInstance = axios.put(`${apiUrl}/job-positions/${jobPositionId}`, {
+      name: jobPositionDummy.job_position_name,
+      description: jobPositionDummy.job_position_description,
+      key_points: jobPositionDummy.job_position_key_points
+    })
 
   } else if (openCreateModal.value) {
 
-    axiosInstance = axios.post(`${apiUrl}/job-positions`, currentModalJobPosition)
+    axiosInstance = axios.post(`${apiUrl}/job-positions`, {
+      name: jobPositionDummy.job_position_name,
+      description: jobPositionDummy.job_position_description,
+      key_points: jobPositionDummy.job_position_key_points
+    })
 
   } else if (openDeleteMessage.value) {
 
@@ -153,16 +172,18 @@ function selectJobPosition(jobPosition: JobPosition) {
           <GapUtil gap="16px">
             <div class="form-group">
               <label for="jobPositionName">Nombre de la vacante*:</label>
-              <input name="jobPositionName" type="text" v-model="currentModalJobPosition.name" required />
+              <input name="jobPositionName" type="text" v-model="jobPositionDummy.job_position_name" required />
             </div>
             <div class="form-group">
               <label for="jobPositionDescription">Descripción general*:</label>
-              <textarea name="jobPositionDescription" v-model="currentModalJobPosition.description" required />
+              <textarea name="jobPositionDescription" v-model="jobPositionDummy.job_position_description"
+                        required />
             </div>
             <div class="form-group">
               <label for="jobPositionKeyPoints">Lita de puntos clave*:</label>
               <!--                  <input name="jobPositionKeyPoints" type="text" v-model="currentModalJobPosition.key_points" required/>-->
-              <Vue3TagsInput :tags="currentModalJobPosition.key_points" @on-tags-changed="updateKeyPoints" />
+              <Vue3TagsInput :tags="jobPositionDummy.job_position_key_points"
+                             @on-tags-changed="updateKeyPoints" />
             </div>
           </GapUtil>
         </template>
@@ -171,10 +192,10 @@ function selectJobPosition(jobPosition: JobPosition) {
 
     <template #footer>
       <div style="display: flex; justify-content: space-evenly;">
-        <AcceptBtnCom style="font-size: 4vh;" @click="closeCreateModal" :is-default="false">Cancelar
+        <AcceptBtnCom style="font-size: 4vh;" @click="closeCreateModal" :is-cancel="true">Cancelar
         </AcceptBtnCom>
         <!-- Crear el componente  CanelBtnCom y usarlo aquí !-->
-        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-default="false">Crear</AcceptBtnCom>
+        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-inverted="true">Crear</AcceptBtnCom>
       </div>
     </template>
   </MessageCom>
@@ -194,16 +215,18 @@ function selectJobPosition(jobPosition: JobPosition) {
           <GapUtil gap="16px">
             <div class="form-group">
               <label for="jobPositionName">Nombre de la vacante*:</label>
-              <input name="jobPositionName" type="text" v-model="currentModalJobPosition.name" required />
+              <input name="jobPositionName" type="text" v-model="jobPositionDummy.job_position_name" required />
             </div>
             <div class="form-group">
               <label for="jobPositionDescription">Descripción general*:</label>
-              <textarea name="jobPositionDescription" v-model="currentModalJobPosition.description" required />
+              <textarea name="jobPositionDescription" v-model="jobPositionDummy.job_position_description"
+                        required />
             </div>
             <div class="form-group">
               <label for="jobPositionKeyPoints">Lita de puntos clave*:</label>
               <!--                  <input name="jobPositionKeyPoints" type="text" v-model="currentModalJobPosition.key_points" required/>-->
-              <Vue3TagsInput :tags="currentModalJobPosition.key_points" @on-tags-changed="updateKeyPoints" />
+              <Vue3TagsInput :tags="jobPositionDummy.job_position_key_points"
+                             @on-tags-changed="updateKeyPoints" />
             </div>
           </GapUtil>
         </template>
@@ -212,10 +235,10 @@ function selectJobPosition(jobPosition: JobPosition) {
 
     <template #footer>
       <div style="display: flex; justify-content: space-evenly;">
-        <AcceptBtnCom style="font-size: 4vh;" @click="closeCreateModal" :is-default="false">Cancelar
+        <AcceptBtnCom style="font-size: 4vh;" @click="closeUpdateModal" :is-cancel="true">Cancelar
         </AcceptBtnCom>
         <!-- Crear el componente  CanelBtnCom y usarlo aquí !-->
-        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-default="false">Aceptar
+        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-inverted="true">Aceptar
         </AcceptBtnCom>
       </div>
     </template>
@@ -239,10 +262,10 @@ function selectJobPosition(jobPosition: JobPosition) {
 
     <template #footer>
       <div style="display: flex; justify-content: space-evenly;">
-        <AcceptBtnCom style="font-size: 4vh;" @click="openDeleteMessage=false" :is-default="false">Cancelar
+        <AcceptBtnCom style="font-size: 4vh;" @click="openDeleteMessage=false" :is-inverted="true">Cancelar
         </AcceptBtnCom>
         <!-- Crear el componente  CanelBtnCom y usarlo aquí !-->
-        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-default="false">Eliminar</AcceptBtnCom>
+        <AcceptBtnCom style="font-size: 4vh;" @click="performAction" :is-cancel="true">Eliminar</AcceptBtnCom>
       </div>
     </template>
   </MessageCom>
