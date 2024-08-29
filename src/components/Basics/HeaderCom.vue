@@ -1,18 +1,19 @@
 <script setup lang="ts">
 
+import router from '@/router'
 </script>
 
 <template>
   <header>
     <nav>
       <div class="logo">
-        <a href="#">SherlockCV</a>
+        <a @click="router.push({name: 'Vacants'})" href="#">SherlockCV</a>
       </div>
       <ul class="nav-links">
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Acerca</a></li>
-        <li><a href="#">Servicios</a></li>
-        <li><a href="#">Contacto</a></li>
+        <!--        <li><a href="#">Inicio</a></li>-->
+        <!--        <li><a href="#">Acerca</a></li>-->
+        <!--        <li><a href="#">Servicios</a></li>-->
+        <!--        <li><a href="#">Contacto</a></li>-->
       </ul>
     </nav>
   </header>
