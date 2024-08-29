@@ -35,7 +35,6 @@ onBeforeMount(() => {
   currentProcess = useJobPositionProcessStore().processData
 
   if (!currentProcess) {
-    console.error('no process')
     const router = useRouter()
     router.back()
   } else {

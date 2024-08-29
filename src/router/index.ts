@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import JobCardsView from '@/views/JobCardsView.vue'
 
 const routes = [
   {
@@ -15,12 +16,17 @@ const routes = [
     // Experimental name for the path
     path: '/vacants',
     name: 'Vacants',
-    component: () => import('@/views/JobCardsView.vue')
+    component: JobCardsView
   },
   {
     path: '/candidates',
     name: 'CandidatesPool',
     component: () => import('@/views/CandidatesPoolView.vue')
+  },
+  {
+    path: '/reports/:id',
+    name: 'Reports',
+    component: () => import('@/views/ReportsView.vue')
   },
   {
     path: '/:pathMatch(.*)*',
