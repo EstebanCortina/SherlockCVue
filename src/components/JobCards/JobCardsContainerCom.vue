@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, type PropType, watch } from 'vue'
+import { computed, type PropType } from 'vue'
+import router from '@/router'
 import type { JobPosition } from '@/types/JobPosition'
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
 
@@ -50,13 +51,15 @@ const emit = defineEmits(['select-job-position', 'delete-modal-open', 'edit-moda
 
     <br>
 
-    <div v-if="jobPosition.job_position_is_open" class="job-card-btn-container">
-      <AcceptBtnCom class="btn-class" @click="emit('select-job-position', jobPosition)" :is-default="true">
-        Seleccionar
-      </AcceptBtnCom>
-    </div>
-    <div v-else class="job-card-btn-container">
-      <AcceptBtnCom class="btn-class" :is-default="true">Ver reporte</AcceptBtnCom>
+    <div style="display: flex; gap: 5px">
+      <div v-if="jobPosition.job_position_is_open" class="job-card-btn-container">
+        <AcceptBtnCom class="btn-class" @click="emit('select-job-position', jobPosition)" :is-default="true">
+          Seleccionar
+        </AcceptBtnCom>
+      </div>
+      <div v-if="jobPosition.report_final_analysis" class="job-card-btn-container">
+        <AcceptBtnCom @click="router.push({name: 'Reports', params: { id: jobPosition.job_position_id }})" class="btn-class" :is-default="true">Ver reporte</AcceptBtnCom>
+      </div>
     </div>
 
 

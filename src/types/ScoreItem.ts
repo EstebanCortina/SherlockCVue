@@ -1,4 +1,3 @@
 export type ScoreItem = {
-  name: String,
-  points: number
+  [x: string]: number;
 }

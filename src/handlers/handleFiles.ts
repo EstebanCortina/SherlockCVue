@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import * as PDFJS from 'pdfjs-dist'
 
 PDFJS.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
-export default async function handleFiles(files: FileList, container: HTMLElement, dropArea: HTMLElement, docsRef: Ref): Promise<void> {
+export default async function handleFiles(files: FileList, container: HTMLElement, dropArea: HTMLElement, docsRef: any): Promise<void> {
   let currentRow = container.lastElementChild
   for (const file of files) {
     if (file.type === 'application/pdf' ||
@@ -32,7 +32,7 @@ export default async function handleFiles(files: FileList, container: HTMLElemen
           viewport: scaledViewport
         }
         await page.render(renderContext).promise
-        docsRef.value.push(file)
+        docsRef.push(file)
       } else {
         console.error('No se pudo obtener el contexto 2D del canvas.')
       }
