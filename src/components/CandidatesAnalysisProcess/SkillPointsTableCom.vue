@@ -1,41 +1,50 @@
 <script setup lang="ts">
 
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
-import { computed, type Ref, ref } from 'vue'
+import { computed, defineProps, type Ref, ref } from 'vue'
 import type { ScoreItem } from '@/types/ScoreItem'
+
+const props = defineProps({
+  scoreList: {
+    type: Object,
+    required: true
+  }
+})
 
 const isVisibleAddSkillItem = ref(false)
 const newScoreItemName = ref('')
 const newScoreItemPoints = ref(0)
 
-const scoreItems: Ref<ScoreItem[]> = ref([
-  // {
-  //   name: 'Experiencia laboral',
-  //   points: 50
-  // },
-  // {
-  //   name: 'Experiencia con Python',
-  //   points: 20
-  // }
-])
+const scoreItems = props.scoreList
+
+
+// const scoreItems: Ref<ScoreItem[]> = ref([
+//   // {
+//   //   name: 'Experiencia laboral',
+//   //   points: 50
+//   // },
+//   // {
+//   //   name: 'Experiencia con Python',
+//   //   points: 20
+//   // }
+// ])
 
 const totalPoints = 100
 
 // Computado que calcula los puntos restantes
 const remainingPoints = computed(() => {
-  const assignedPoints = scoreItems.value.reduce((sum, item) => sum + item.points, 0)
+  const assignedPoints = Object.values(scoreItems).reduce((sum: number, value: number) => sum + value, 0)
   return totalPoints - assignedPoints
 })
 
 function addScoreItem() {
   //Aquí debería invertir el valor de una variable para mostrar u ocultar el componente de añadir
   let newScoreItem: ScoreItem = {
-    name: newScoreItemName.value,
-    points: newScoreItemPoints.value
+    [newScoreItemName.value]: newScoreItemPoints.value
   }
 
-  if (newScoreItem.points > 0 && newScoreItem.name !== '') {
-    scoreItems.value.push(newScoreItem)
+  if (newScoreItemPoints.value > 0 && newScoreItemName.value !== '') {
+    Object.assign(scoreItems, newScoreItem)
     isVisibleAddSkillItem.value = !isVisibleAddSkillItem.value
   }
 }
@@ -64,10 +73,10 @@ function openNewScoreItem() {
     <div class="score-list">
       <div class="score-frame">
 
-        <div v-for="(scoreItem, index) of scoreItems" :key="index">
+        <div v-for="([name, value], index) of Object.entries(scoreItems)" :key="index">
           <div class="score-item">
-            <span>{{ scoreItem.name }}</span>
-            <span>{{ scoreItem.points }} pts</span>
+            <span>{{ name }}</span>
+            <span>{{ value }} pts</span>
           </div>
           <svg height="2" width="100%">
             <line class="divider" x1="0" y1="0" x2="100%" y2="0" />

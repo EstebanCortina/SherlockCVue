@@ -3,14 +3,21 @@ import CandidatesPoolCom from '@/components/CandidatesAnalysisProcess/Candidates
 import HeaderCom from '@/components/Basics/HeaderCom.vue'
 import { useJobPositionProcessStore } from '@/stores/jobPositionProcessStore'
 import { useRouter } from 'vue-router'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import type { JobPosition } from '@/types/JobPosition'
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
 import SkillPointsTableCom from '@/components/CandidatesAnalysisProcess/SkillPointsTableCom.vue'
 import router from '@/router'
+import axios from 'axios'
+import type { CAP } from '@/types/CAP'
+
+const apiUrl = import.meta.env.VITE_API_URL
 
 let currentProcess: any
 let currentJobPosition: JobPosition
+let newCAP: CAP = {} as CAP
+const scoreList = ref({})
+const jobPositionFiles = ref([])
 // let currentJobPosition = {
 //   'id': '5110f768-5823-11ef-a067-4e482286164d',
 //   'user_id': '9becfb0d-3963-11ef-a067-4e482286164d',
@@ -43,6 +50,26 @@ onBeforeMount(() => {
   }
 })
 
+async function startAnalysis() {
+
+  const formData = new FormData()
+
+  for (let i = 0; i < jobPositionFiles.value.length; i++) {
+    const file = jobPositionFiles.value[i];
+    formData.append("candidates_files", file);
+  }
+  newCAP.job_position_id = currentJobPosition.job_position_id
+  newCAP.job_position_name = currentJobPosition.job_position_name
+  newCAP.job_position_description = currentJobPosition.job_position_description
+  newCAP.score_list = scoreList.value
+  console.log(newCAP)
+  formData.append("data", JSON.stringify(newCAP))
+
+  let response = await axios.post(`${apiUrl}/start-analysis`, formData)
+  console.log(response.data)
+  await router.push({ name: 'Reports', params: { id: response.data.job_position_id } })
+}
+
 </script>
 
 <template>
@@ -64,7 +91,8 @@ onBeforeMount(() => {
         </p>
       </div>
 
-      <AcceptBtnCom style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px" :is-default="true">
+      <AcceptBtnCom @click="startAnalysis" style="margin: 0 50px 0 50px; height: 50%; width: 10%; font-size: 18px"
+                    :is-default="true">
         Iniciar análisis
       </AcceptBtnCom>
     </div>
@@ -76,7 +104,7 @@ onBeforeMount(() => {
       <!--      </span>-->
 
       <div style="display: flex; column-gap: 10dvh; align-items: center;">
-        <CandidatesPoolCom />
+        <CandidatesPoolCom :files="jobPositionFiles" />
 
         <div class="job_description">
 
@@ -102,7 +130,7 @@ onBeforeMount(() => {
           <line class="divider" x1="0" y1="0" x2="100%" y2="0" />
         </svg>
       </div>
-      <SkillPointsTableCom />
+      <SkillPointsTableCom :score-list="scoreList" />
     </div>
 
   </div>

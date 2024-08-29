@@ -3,15 +3,16 @@ import HeaderCom from '@/components/Basics/HeaderCom.vue'
 import { useRoute } from 'vue-router'
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
 import router from '@/router'
-import { onMounted, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 import axios from 'axios'
+import type { FinalAnalysis } from '@/types/FinalAnalysis'
 
 const route = useRoute()
 const jobPositionId = route.params.id
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-const analysis = ref([])
+const analysis: Ref<FinalAnalysis[]> = ref([])
 
 onMounted(async () => {
   try {
