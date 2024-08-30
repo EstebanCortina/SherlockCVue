@@ -16,33 +16,60 @@ const analysis: Ref<FinalAnalysis[]> = ref([])
 const reportId = ref(null)
 
 const selectedCard = ref(null)
+const isClosed = ref(false)
+const isLoading = ref(false)
 
 onMounted(async () => {
   try {
-    let response = await axios.get(`${apiUrl}/reports/${jobPositionId}`)
-    console.log(response.data)
-    reportId.value = response.data.id
-    analysis.value = response.data.final_analysis
+    axios.get(`${apiUrl}/job-positions/${route.params.id}`).then(async (firstResponse) => {
+      if (!firstResponse.data.job_position_is_open) {
+        isClosed.value = true
+      }
+      let response = await axios.get(`${apiUrl}/reports/${jobPositionId}`)
+      reportId.value = response.data.id
+      analysis.value = response.data.final_analysis
+    })
   } catch (e) {
     //@ts-ignore
     console.error(e.message)
   }
 })
 
-async function chooseCandidate(candidate, index){
-  selectedCard.value = index
-  candidate.is_selected = true;
-  analysis.value[index] = candidate
-  console.log(analysis.value)
-  try {
-    console.log(reportId)
-    let response = await axios.put(`${apiUrl}/reports/${reportId.value}`, {
-      final_analysis: analysis.value
-    })
-    console.log(response.data)
-  }catch (e) {
-    console.error(e)
+function chooseCandidate(candidate: FinalAnalysis, index: number) {
+
+  if (isClosed.value) {
+    return
   }
+
+
+  if ((selectedCard.value === null) || (selectedCard.value !== index)) {
+    //@ts-ignore
+    selectedCard.value = index
+    candidate.is_selected = true
+    analysis.value[index] = candidate
+  } else if (selectedCard.value === index) {
+    //@ts-ignore
+    selectedCard.value = null
+    delete candidate.is_selected
+    analysis.value[index] = candidate
+  }
+}
+
+function endCAP() {
+  isLoading.value = true
+  setTimeout(async () => {
+    try {
+      await axios.put(`${apiUrl}/reports/${reportId.value}`, {
+        final_analysis: JSON.stringify(analysis.value)
+      })
+      await axios.patch(`${apiUrl}/job-positions/toggle-status/${route.params.id}`)
+      window.location.reload()
+    } catch (e: any) {
+      isLoading.value = false
+      console.error(e.message)
+    }
+  }, 4000)
+
 }
 
 
@@ -53,23 +80,25 @@ async function chooseCandidate(candidate, index){
     <HeaderCom />
     <div style="display: flex; justify-content: center;">
       <div style="display: flex; flex-direction: column; align-items: center; width: 70%">
-        <span style="margin: 20px; color: var(--primary-color); font-size: 24px"><b>Reporte de resultados:</b></span>
+        <span style="margin: 10px; color: var(--primary-color); font-size: 24px"><b>Reporte de resultados:</b></span>
         <AcceptBtnCom style="width: 15%" @click="router.push({name: 'Vacants'})" :is-default="true">
           Analizar otra vacante
         </AcceptBtnCom>
       </div>
-      <div style="display: flex; justify-content: center; align-items: center">
-        <AcceptBtnCom style="width: 100%; height: 50%; margin: 0" @click="router.push({name: 'Vacants'})" :is-default="true">
+      <div v-if="selectedCard !== null" style="display: flex; justify-content: center; align-items: center">
+        <AcceptBtnCom style="width: 100%; height: 50%; margin: 0" @click="endCAP"
+                      :is-default="true">
           Finalizar vacante
         </AcceptBtnCom>
       </div>
     </div>
 
     <div class="content">
-
-      <div @click="chooseCandidate(item, index)" :class="['candidate-item', {'candidate-item-selected': selectedCard === index || item.is_selected}]"
+      <div @click="chooseCandidate(item, index)"
+           :class="['candidate-item', {'candidate-item-selected': (selectedCard === index) || item?.is_selected === true}]"
            v-for="(item, index) in analysis" :key="index"
-           style="display: flex; align-items: center; justify-content: space-evenly; max-width: 1100px; margin: 10px" title="Elegir candidato...">
+           style="display: flex; align-items: center; justify-content: space-evenly; max-width: 1100px; margin: 10px"
+           title="Elegir candidato...">
 
         <div class="candidate-info" style="width: 500px; margin: 20px">
 
@@ -103,11 +132,16 @@ async function chooseCandidate(candidate, index){
 
         <div style="display: flex; flex-direction: column; align-items: center; margin: 20px">
           <img style="width: 240px; height: 340px;" :src="item.front_page_url">
-          <span style="font-style: italic">{{item.file_name}}</span>
+          <span style="font-style: italic">{{ item.file_name }}</span>
         </div>
 
       </div>
     </div>
+  </div>
+  <div v-if="isLoading" class="loading-screen">
+    <iframe style="border-style: none; width: 100%; height: 30%"
+            src="https://lottie.host/embed/a1b8b497-0171-45fb-b8ed-0109bc89450f/F6Mcq3cKfy.json"></iframe>
+    <span><b>Finalizando vacante...</b></span>
   </div>
 </template>
 
@@ -140,7 +174,7 @@ async function chooseCandidate(candidate, index){
 }
 
 .candidate-item {
-  width: 100vh;
+  width: 70%;
   cursor: pointer;
   border-radius: 2%;
   box-shadow: 0 0 10px rgba(130, 130, 130, 0.88);
@@ -164,7 +198,7 @@ async function chooseCandidate(candidate, index){
 }
 
 .candidate-item-selected {
-  width: 100vh;
+  width: 70%;
   cursor: pointer;
   border-radius: 2%;
   box-shadow: 0 0 10px rgba(130, 130, 130, 0.88);
@@ -175,6 +209,22 @@ async function chooseCandidate(candidate, index){
     color: var(--details-color);
     transition: background-color 0.2s ease-in;
   }
+}
+
+.loading-screen {
+  font-size: 24px;
+  color: var(--primary-color);
+  position: fixed; /* Fija el overlay respecto al viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Cubre todo el ancho de la pantalla */
+  height: 100%; /* Cubre todo el alto de la pantalla */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
 
