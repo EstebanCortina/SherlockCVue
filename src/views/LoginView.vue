@@ -33,6 +33,7 @@ function login() {
   }, 4000)
 }
 
+
 function goToSignup() {
   router.push({ name: 'Signup' })
 }
