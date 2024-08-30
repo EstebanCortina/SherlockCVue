@@ -18,6 +18,9 @@ let currentJobPosition: JobPosition
 let newCAP: CAP = {} as CAP
 const scoreList = ref({})
 const jobPositionFiles = ref([])
+
+const isLoadingFiles = ref(false)
+
 // let currentJobPosition = {
 //   'id': '5110f768-5823-11ef-a067-4e482286164d',
 //   'user_id': '9becfb0d-3963-11ef-a067-4e482286164d',
@@ -55,19 +58,24 @@ async function startAnalysis() {
   const formData = new FormData()
 
   for (let i = 0; i < jobPositionFiles.value.length; i++) {
-    const file = jobPositionFiles.value[i];
-    formData.append("candidates_files", file);
+    const file = jobPositionFiles.value[i]
+    formData.append('candidates_files', file)
   }
   newCAP.job_position_id = currentJobPosition.job_position_id
   newCAP.job_position_name = currentJobPosition.job_position_name
   newCAP.job_position_description = currentJobPosition.job_position_description
   newCAP.score_list = scoreList.value
-  console.log(newCAP)
-  formData.append("data", JSON.stringify(newCAP))
+  formData.append('data', JSON.stringify(newCAP))
 
-  let response = await axios.post(`${apiUrl}/start-analysis`, formData)
-  console.log(response.data)
-  await router.push({ name: 'Reports', params: { id: response.data.job_position_id } })
+  try {
+    isLoadingFiles.value = true
+    let response = await axios.post(`${apiUrl}/start-analysis`, formData)
+    await router.push({ name: 'Reports', params: { id: response.data.job_position_id } })
+  } catch (e: any) {
+    isLoadingFiles.value = false
+    console.error(e.message)
+  }
+
 }
 
 </script>
@@ -132,8 +140,15 @@ async function startAnalysis() {
       </div>
       <SkillPointsTableCom :score-list="scoreList" />
     </div>
-
   </div>
+
+  <div v-if="isLoadingFiles" class="loading-screen">
+    <iframe style="border-style: none; width: 100%; height: 30%"
+            src="https://lottie.host/embed/312d2bcc-ae73-4658-a514-931dd0f251c1/UzfRCHYMFX.json"></iframe>
+    <span><b>Analizando CVs...</b></span>
+  </div>
+
+
 </template>
 
 <style scoped>
@@ -179,6 +194,22 @@ async function startAnalysis() {
 .divider {
   stroke: rgba(130, 130, 130, 0.57);
   stroke-width: 5;
+}
+
+.loading-screen {
+  font-size: 24px;
+  color: var(--primary-color);
+  position: fixed; /* Fija el overlay respecto al viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Cubre todo el ancho de la pantalla */
+  height: 100%; /* Cubre todo el alto de la pantalla */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
 </style>

@@ -16,29 +16,30 @@ const email = ref('')
 const password = ref('')
 const rPassword = ref('')
 
+const isLoading = ref(false)
+
 function signup() {
+  isLoading.value = true
+  setTimeout(async () => {
+    try {
+      areFieldsValid()
+      axios.post(`${apiUrl}/signup`,
+        {
+          'name': name.value,
+          'last_name': lastName.value,
+          'email': email.value,
+          'password': password.value
+        }).then(response => {
+        router.push({ name: 'Login' })
+      }).catch(error => {
+        alert(error.response.data.message)
+      })
+    } catch (e: any) {
+      isLoading.value = false
+      alert(e.message)
+    }
+  }, 4000)
 
-  try {
-    areFieldsValid()
-    axios.post(`${apiUrl}/signup`,
-      {
-        'name': name.value,
-        'last_name': lastName.value,
-        'email': email.value,
-        'password': password.value
-      }).then(response => {
-
-      if (response.status === 201) {
-        router.push({ name: 'CandidatesPool' })
-      }
-
-    }).catch(error => {
-      alert(error.response.data.message)
-    })
-
-  } catch (e: any) {
-    alert(e.message)
-  }
 }
 
 
@@ -87,6 +88,7 @@ function areFieldsValid() {
         </template>
 
         <template #form-buttons>
+          <AcceptBtnCom @click="router.replace('/')" :is-cancel="true">Cancelar registro</AcceptBtnCom>
           <AcceptBtnCom @click="signup" :is-inverted="true">Registrarme</AcceptBtnCom>
         </template>
 
@@ -104,6 +106,11 @@ function areFieldsValid() {
         </template>
       </FormCom>
     </div>
+  </div>
+  <div v-if="isLoading" class="loading-screen">
+    <iframe style="border-style: none; width: 100%; height: 30%"
+            src="https://lottie.host/embed/499f4f02-2d5b-4af8-921f-219d5ce031b5/44dF0JQEbr.json"></iframe>
+    <span><b>Creando usuario...</b></span>
   </div>
 
 </template>
@@ -194,6 +201,22 @@ input:focus {
 
 button {
   width: 100%;
+}
+
+.loading-screen {
+  font-size: 24px;
+  color: var(--primary-color);
+  position: fixed; /* Fija el overlay respecto al viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Cubre todo el ancho de la pantalla */
+  height: 100%; /* Cubre todo el alto de la pantalla */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
 </style>

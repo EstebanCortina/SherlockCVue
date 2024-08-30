@@ -17,6 +17,7 @@
   "dependencies": {
     "@vueuse/core": "^10.11.0",
     "axios": "^1.7.2",
+    "lottie-web": "^5.12.2",
     "pdfjs-dist": "^4.2.67",
     "pinia": "^2.2.1",
     "serve": "^14.2.3",
