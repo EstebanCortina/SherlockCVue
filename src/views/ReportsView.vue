@@ -13,6 +13,7 @@ const jobPositionId = route.params.id
 const apiUrl = import.meta.env.VITE_API_URL
 
 const analysis: Ref<FinalAnalysis[]> = ref([])
+
 const reportId = ref(null)
 
 const selectedCard = ref(null)
@@ -78,6 +79,7 @@ function endCAP() {
 <template>
   <div class="main-container">
     <HeaderCom />
+    
     <div style="display: flex; justify-content: center;">
       <div style="display: flex; flex-direction: column; align-items: center; width: 70%">
         <span style="margin: 10px; color: var(--primary-color); font-size: 24px"><b>Reporte de resultados:</b></span>
@@ -226,6 +228,4 @@ function endCAP() {
   align-items: center;
   z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
-
-
 </style>

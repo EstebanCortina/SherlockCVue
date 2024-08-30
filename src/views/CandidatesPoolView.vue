@@ -20,6 +20,7 @@ const scoreList = ref({})
 const jobPositionFiles = ref([])
 
 const isLoadingFiles = ref(false)
+
 // let currentJobPosition = {
 //   'id': '5110f768-5823-11ef-a067-4e482286164d',
 //   'user_id': '9becfb0d-3963-11ef-a067-4e482286164d',
@@ -60,7 +61,6 @@ async function startAnalysis() {
     const file = jobPositionFiles.value[i]
     formData.append('candidates_files', file)
   }
-
   newCAP.job_position_id = currentJobPosition.job_position_id
   newCAP.job_position_name = currentJobPosition.job_position_name
   newCAP.job_position_description = currentJobPosition.job_position_description
