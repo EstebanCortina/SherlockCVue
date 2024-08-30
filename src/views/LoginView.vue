@@ -37,10 +37,6 @@ function goToSignup() {
   router.push({ name: 'Signup' })
 }
 
-function goToSignup() {
-  router.push({ name: 'Signup' })
-}
-
 </script>
 
 <template>
