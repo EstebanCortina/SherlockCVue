@@ -1,13 +1,12 @@
 <script setup lang="ts">
 
-import router from '@/router'
 </script>
 
 <template>
   <header>
     <nav>
       <div class="logo">
-        <a @click="router.push({name: 'Vacants'})" href="#">SherlockCV</a>
+        <a href="/#/vacants">SherlockCV</a>
       </div>
       <ul class="nav-links">
         <!--        <li><a href="#">Inicio</a></li>-->
