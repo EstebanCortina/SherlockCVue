@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import AcceptBtnCom from '@/components/Basics/AcceptBtnCom.vue'
-import { computed, defineProps, type Ref, ref } from 'vue'
+import { computed, type Ref, ref } from 'vue'
 import type { ScoreItem } from '@/types/ScoreItem'
 
 const props = defineProps({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, reactive } from 'vue'
+import { reactive } from 'vue'
 import type { CSSProperties } from 'vue'
 
 const props = defineProps({
